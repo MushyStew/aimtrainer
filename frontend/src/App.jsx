@@ -24,12 +24,50 @@ function loadMapFromStorage() {
 export default function App() {
   const [mode, setMode] = useState('play'); // 'play' | 'editor'
   const [mapVersion, setMapVersion] = useState(0);
+import React from 'react';
+
+function MapGeometry({ map }) {
+  if (!map?.objects) return null;
+
+  return (
+    <>
+      {map.objects.map((obj) => {
+        if (obj.type !== 'polygon' || !obj.vertices || obj.vertices.length < 3) return null;
+
+        // simple: draw them as flat extruded walls in XZ plane
+        const shape = new THREE.Shape(
+          obj.vertices.map(
+            (v, idx) => (idx === 0 ? new THREE.MoveTo(v.x, v.y) : new THREE.LineTo(v.x, v.y))
+          )
+        );
+
+        const geometry = new THREE.ExtrudeGeometry(shape, { depth: 5, bevelEnabled: false });
+
+        return (
+          <mesh key={obj.id} geometry={geometry} position={[0, 2.5, 0]}>
+            <meshStandardMaterial color={obj.fill ? obj.fill : '#0af'} />
+          </mesh>
+        );
+      })}
+    </>
+  );
+}
+
+// then inside your main scene:
+function GameScene({ map }) {
+  return (
+    <>
+      {/* your existing floor, player, targets, etc. */}
+      <MapGeometry map={map} />
+    </>
+  );
+}
 
   const mapData = useMemo(() => {
     // re-read map whenever mapVersion changes
     return loadMapFromStorage();
   }, [mapVersion]);
-
+  
   if (mode === 'editor') {
     return (
       <MapEditorView
