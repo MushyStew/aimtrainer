@@ -1,61 +1,109 @@
-import { useSettings } from "../state/settings.js";
+import { useSettings } from "../state/settings";
 
 export default function Crosshair() {
   const { settings } = useSettings();
-  const { size, thickness, gap, color } = settings.crosshair;
+  const { size, thickness, gap, color, outlineColor } = settings.crosshair;
 
-  const containerStyle = {
-    position: "fixed",
+  const baseStyle = {
+    position: "absolute",
     pointerEvents: "none",
-    zIndex: 150,
     left: "50%",
     top: "50%",
     transform: "translate(-50%, -50%)",
-    width: 0,
-    height: 0,
+    zIndex: 150,
   };
 
-  const lineStyle = {
+  const line = {
     position: "absolute",
-    background: color,
+    backgroundColor: color,
+    width: thickness,
+  };
+
+  const outline = {
+    position: "absolute",
+    backgroundColor: outlineColor,
+    width: thickness + 2,
   };
 
   return (
-    <div style={containerStyle}>
+    <div style={baseStyle}>
+      {/* TOP OUTLINE */}
       <div
         style={{
-          ...lineStyle,
-          width: thickness,
+          ...outline,
+          height: size + 2,
+          bottom: gap + size,
+          left: -((thickness + 2) / 2),
+        }}
+      />
+      {/* TOP FILL */}
+      <div
+        style={{
+          ...line,
           height: size,
           bottom: gap + size,
-          left: -thickness / 2,
+          left: -(thickness / 2),
         }}
       />
+
+      {/* BOTTOM OUTLINE */}
       <div
         style={{
-          ...lineStyle,
-          width: thickness,
+          ...outline,
+          height: size + 2,
+          top: gap + size,
+          left: -((thickness + 2) / 2),
+        }}
+      />
+      {/* BOTTOM FILL */}
+      <div
+        style={{
+          ...line,
           height: size,
-          top: gap,
-          left: -thickness / 2,
+          top: gap + size,
+          left: -(thickness / 2),
         }}
       />
+
+      {/* LEFT OUTLINE */}
       <div
         style={{
-          ...lineStyle,
-          width: size,
-          height: thickness,
+          ...outline,
+          height: thickness + 2,
+          width: size + 2,
           right: gap + size,
-          top: -thickness / 2,
+          top: -((thickness + 2) / 2),
         }}
       />
+      {/* LEFT FILL */}
       <div
         style={{
-          ...lineStyle,
-          width: size,
+          ...line,
           height: thickness,
-          left: gap,
-          top: -thickness / 2,
+          width: size,
+          right: gap + size,
+          top: -(thickness / 2),
+        }}
+      />
+
+      {/* RIGHT OUTLINE */}
+      <div
+        style={{
+          ...outline,
+          height: thickness + 2,
+          width: size + 2,
+          left: gap + size,
+          top: -((thickness + 2) / 2),
+        }}
+      />
+      {/* RIGHT FILL */}
+      <div
+        style={{
+          ...line,
+          height: thickness,
+          width: size,
+          left: gap + size,
+          top: -(thickness / 2),
         }}
       />
     </div>
