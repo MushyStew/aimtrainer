@@ -36,6 +36,14 @@ export const useSettings = create((set) => ({
       const updatedCross = { ...state.settings.crosshair, [key]: value };
       const updated = { ...state.settings, crosshair: updatedCross };
       localStorage.setItem("aimtrainer_settings", JSON.stringify(updated));
+      crosshair: {
+      color: "#ffffff",
+      outlineColor: "#000000",
+      size: 12,
+      thickness: 2,
+      gap: 4,  
+    },
+
       return { settings: updated };
     }),
 }));
