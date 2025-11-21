@@ -1,5 +1,6 @@
 export default function NavBar({ mode, setMode }) {
-  const tabs = ["play", "settings", "maps"];
+  const tabs = ["play", "editor", "maps", "settings"];
+
 
   return (
     <div className="navbar">
