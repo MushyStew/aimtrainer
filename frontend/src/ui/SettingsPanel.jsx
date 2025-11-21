@@ -69,6 +69,14 @@ export default function SettingsPanel() {
           onChange={(e) => setCrosshair("color", e.target.value)}
         />
       </div>
+      <div style={{ marginBottom: "12px" }}>
+      <div>Outline Color:</div>
+      <input
+          type="color"
+          value={settings.crosshair.outlineColor}
+          onChange={(e) => setCrosshair("outlineColor", e.target.value)}
+        />
+      </div>
 
       <Slider
         label="Crosshair Size"
