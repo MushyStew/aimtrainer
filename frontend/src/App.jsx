@@ -20,26 +20,14 @@ export default function App() {
   // modes: "play", "settings", "maps", "editor"
 
   return (
-    <>
-      <NavBar mode={mode} setMode={setMode} />
+  <>
+    <NavBar mode={mode} setMode={setMode} />
 
-      {/* GAMEPLAY */}
-      {mode === "play" && <GameScene />}
+    {mode === "play" && <GameScene map={mapData} />}
+    {mode === "editor" && <MapEditorView />}
+    {mode === "maps" && <MapsScreen />}
+    {mode === "settings" && <SettingsScreen />}
+  </>
+);
 
-      {/* SETTINGS SCREEN */}
-      {mode === "settings" && <SettingsScreen />}
-
-      {/* MAPS MENU SCREEN */}
-      {mode === "maps" && <MapsScreen />}
-
-      {/* MAP EDITOR SCREEN */}
-      {mode === "editor" && (
-        <MapEditorView
-          onExit={() => {
-            setMode("play"); // go back to game after saving
-          }}
-        />
-      )}
-    </>
-  );
 }
